@@ -278,6 +278,11 @@ help
 ### Create Operations
 ![insertOne](https://docs.mongodb.com/manual/_images/crud-annotated-mongodb-insertOne.bakedsvg.svg)
 
+```
+db.collection.insertOne()
+db.collection.insertMany()
+```
+
 ### Read Operations
 ![find](https://docs.mongodb.com/manual/_images/crud-annotated-mongodb-find.bakedsvg.svg)
 
