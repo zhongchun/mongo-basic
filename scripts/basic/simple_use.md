@@ -1,5 +1,22 @@
 # Simple Use
 
+## Introduction
+MongoDB is an open-source document database that provides high performance, high availability, and automatic scaling.
+
+### Document Database
+A record in MongoDB is a document, which is a data structure composed of field and value pairs. MongoDB documents are similar to JSON objects. The values of fields may include other documents, arrays, and arrays of documents.
+
+### Key Features
+#### High Performance
+
+#### Rich Query Language
+
+#### High Availability
+
+#### Horizontal Scalability
+
+#### Support for Multiple Storage Engines
+
 ## Install mongodb
 os: mac os
 ```
@@ -84,6 +101,24 @@ Tapped 1 command (43 files, 55.2KB).
 ==> Successfully started `mongodb@3.2` (label: homebrew.mxcl.mongodb@3.2)
 ```
 
+```
+┌─[baidu@baidudeMacBook-Pro-97] - [/usr/local/var/mongodb] - [Sat Aug 18, 19:31]
+└─[$] <> mongod -repair
+2018-08-18T19:32:54.633+0800 I CONTROL  [initandlisten] MongoDB starting : pid=33712 port=27017 dbpath=/data/db 64-bit host=baidudeMacBook-Pro-97.local
+2018-08-18T19:32:54.633+0800 I CONTROL  [initandlisten] db version v3.6.6
+2018-08-18T19:32:54.633+0800 I CONTROL  [initandlisten] git version: 6405d65b1d6432e138b44c13085d0c2fe235d6bd
+2018-08-18T19:32:54.633+0800 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.0.2p  14 Aug 2018
+2018-08-18T19:32:54.633+0800 I CONTROL  [initandlisten] allocator: system
+2018-08-18T19:32:54.633+0800 I CONTROL  [initandlisten] modules: none
+2018-08-18T19:32:54.633+0800 I CONTROL  [initandlisten] build environment:
+2018-08-18T19:32:54.633+0800 I CONTROL  [initandlisten]     distarch: x86_64
+2018-08-18T19:32:54.633+0800 I CONTROL  [initandlisten]     target_arch: x86_64
+2018-08-18T19:32:54.633+0800 I CONTROL  [initandlisten] options: { repair: true }
+2018-08-18T19:32:54.635+0800 I STORAGE  [initandlisten] exception in initAndListen: NonExistentPath: Data directory /data/db not found., terminating
+2018-08-18T19:32:54.635+0800 I CONTROL  [initandlisten] now exiting
+2018-08-18T19:32:54.635+0800 I CONTROL  [initandlisten] shutting down with code:100
+```
+
 ### login
 mongo 127.0.0.1:27017
 or 
@@ -102,6 +137,125 @@ Questions? Try the support group
 >
 ```
 
+### Questions
+1. Start error
+```
+┌─[baidu@baidudeMacBook-Pro-97] - [~] - [Sat Aug 18, 19:22]
+└─[$] <> mongo
+MongoDB shell version v3.6.6
+connecting to: mongodb://127.0.0.1:27017
+2018-08-18T19:22:06.335+0800 W NETWORK  [thread1] Failed to connect to 127.0.0.1:27017, in(checking socket for error after poll), reason: Connection refused
+2018-08-18T19:22:06.335+0800 E QUERY    [thread1] Error: couldn't connect to server 127.0.0.1:27017, connection attempt failed :
+connect@src/mongo/shell/mongo.js:251:13
+@(connect):1:6
+exception: connect failed
+```
+How to fix it up:
+```
+rm -rf /usr/local/var/mongodb/*
+```
+
+2. Start warning
+```
+┌─[baidu@baidudeMacBook-Pro-97] - [/usr/local/var] - [Sat Aug 18, 19:56]
+└─[$] <> mongo
+MongoDB shell version v4.0.1
+connecting to: mongodb://127.0.0.1:27017
+MongoDB server version: 4.0.1
+Server has startup warnings:
+2018-08-18T19:56:58.150+0800 I CONTROL  [initandlisten]
+2018-08-18T19:56:58.150+0800 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2018-08-18T19:56:58.150+0800 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2018-08-18T19:56:58.150+0800 I CONTROL  [initandlisten]
+---
+Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+and anyone you share the URL with. MongoDB may use this information to make product
+improvements and to suggest MongoDB products and deployment options to you.
+
+To enable free monitoring, run the following command: db.enableFreeMonitoring()
+To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+
+>
+```
+
+1) add user
+```
+use admin
+db.createUser(
+  {
+    user: "u_admin",
+    pwd: "123456",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)
+
+db.createUser(
+  {
+    user: "root", 
+    pwd: "123456",
+    roles:["root"]
+  }
+)
+
+db.createUser(
+  {
+    user: "tester",
+    pwd: "123456",
+    roles: [ { role: "readWrite", db: "test" },
+             { role: "read", db: "reporting" } ]
+  }
+)
+
+```
+
+list the users:
+```
+use admin
+db.system.users.find()
+```
+
+2) modify mongo.conf and restart service
+Add two lines in /usr/local/etc/mongod.conf, as follows:
+```
+security:
+  authorization: enabled
+```
+
+And then restart mongodb service, like this:
+```
+brew services restart mongodb
+```
+
+3) login in 
+```
+mongo -port 27017 -username admin -password 123456  --authenticationDatabase=admin
+```
+or
+```
+mongo --port 27017 -u "admin" -p "123456" --authenticationDatabase "admin"
+```
+or
+```
+mongo
+
+db.auth("admin", "123456")
+```
+
+
 ### Simple Use
+#### Database
+In MongoDB, databases hold collections of documents.
+
+#### Collections
+MongoDB stores documents in collections. Collections are analogous to tables in relational databases.
 
 
+
+
+## Reference
+1. [MongoDB Doc](https://docs.mongodb.com/)
+2. [Learn MongoDB](https://university.mongodb.com/)
