@@ -246,12 +246,46 @@ db.auth("admin", "123456")
 ```
 
 
-### Simple Use
+### Some Basic Concepts
 #### Database
 In MongoDB, databases hold collections of documents.
 
 #### Collections
 MongoDB stores documents in collections. Collections are analogous to tables in relational databases.
+
+#### BSON Types
+BSON is a binary serialization format used to store documents and make remote procedure calls in MongoDB.
+
+### Mongo Shell
+The mongo shell is an interactive JavaScript interface to MongoDB. You can use the mongo shell to query and update data as well as perform administrative operations.
+
+1. Display the database you are using, type:
+```
+db
+```
+
+2. Switch databases, issue the use <db>, as in the following example:
+```
+use test
+```
+
+3. Help
+```
+help
+```
+
+## CRUD Operations
+### Create Operations
+![insertOne](https://docs.mongodb.com/manual/_images/crud-annotated-mongodb-insertOne.bakedsvg.svg)
+
+### Read Operations
+![find](https://docs.mongodb.com/manual/_images/crud-annotated-mongodb-find.bakedsvg.svg)
+
+### Update Operations
+![updateMany](https://docs.mongodb.com/manual/_images/crud-annotated-mongodb-updateMany.bakedsvg.svg)
+
+### Delete Operations
+![deleteMany](https://docs.mongodb.com/manual/_images/crud-annotated-mongodb-deleteMany.bakedsvg.svg)
 
 
 
@@ -259,3 +293,5 @@ MongoDB stores documents in collections. Collections are analogous to tables in 
 ## Reference
 1. [MongoDB Doc](https://docs.mongodb.com/)
 2. [Learn MongoDB](https://university.mongodb.com/)
+3. [BSON](http://bsonspec.org/)
+4. [JSON](http://www.json.org/)
