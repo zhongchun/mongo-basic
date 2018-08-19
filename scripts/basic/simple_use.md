@@ -292,6 +292,19 @@ db.collection.insertMany()
 ### Delete Operations
 ![deleteMany](https://docs.mongodb.com/manual/_images/crud-annotated-mongodb-deleteMany.bakedsvg.svg)
 
+## SQL to MongoDB Mapping Chart
+SQL Terms/Concepts | MongoDB Terms/Concepts
+-- | --
+database | database
+table | collection
+row | document or BSON document
+column | field
+index | index
+table joins | $lookup, embedded documents
+primary key | primary key
+aggregation | aggretation pipeline
+transactions | transactions
+
 
 
 ## Reference
